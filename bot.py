@@ -1,9 +1,9 @@
 from telegram import Update, WebAppInfo, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-TOKEN = "ТВОЙ_ТОКЕН"
+TOKEN = "8405992880:AAFWcf9u83bh9tmSjYRpWj1cHB1t1W5IiFo"
 
-WEBAPP_URL = "http://127.0.0.1:5000"
+WEBAPP_URL = "WEBAPP_URL = "https://salary-bot-o4qa.onrender.com""
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
