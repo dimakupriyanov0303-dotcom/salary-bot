@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+body {
+    font-family: Arial;
+    background: #0f0f0f;
+    color: white;
+    text-align: center;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    padding: 10px;
+}
+
+.day {
+    padding: 12px;
+    border-radius: 10px;
+    background: #222;
+    cursor: pointer;
+}
+
+.good { background: #1f8f3a; }
+.empty { background: #333; }
+
+.modal {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #111;
+    padding: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>📅 Зарплата календарь</h2>
+
+<div class="grid" id="cal"></div>
+
+<div class="modal" id="modal" style="display:none;">
+    <input id="store" placeholder="Магазин"><br><br>
+    <input id="service" placeholder="Сервис"><br><br>
+    <button onclick="save()">💾 Сохранить</button>
+</div>
+
+<script>
+const tg = window.Telegram.WebApp;
+tg.expand();
+
+let selectedDay = null;
+let data = {};
+
+function calc(store, service){
+    return 524 + store*0.005 + service*0.003 + 37400/21;
+}
+
+function build(){
+    let cal = document.getElementById("cal");
+
+    for(let i=1;i<=31;i++){
+        let d = document.createElement("div");
+        d.className="day empty";
+        d.innerText=i;
+
+        d.onclick = () => {
+            selectedDay = i;
+            document.getElementById("modal").style.display="block";
+        };
+
+        cal.appendChild(d);
+    }
+}
+
+function save(){
+    let store = document.getElementById("store").value;
+    let service = document.getElementById("service").value;
+
+    let salary = calc(store, service);
+
+    fetch("/save", {
+        method:"POST",
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+            user_id: tg.initDataUnsafe.user.id,
+            day: selectedDay,
+            store: store,
+            service: service,
+            salary: salary
+        })
+    });
+
+    tg.sendData(JSON.stringify({
+        day: selectedDay,
+        store,
+        service,
+        salary
+    }));
+
+    document.getElementById("modal").style.display="none";
+}
+
+build();
+</script>
+
+</body>
+</html>
