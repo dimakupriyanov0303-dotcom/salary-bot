@@ -1,11 +1,11 @@
 from flask import Flask, send_from_directory
 import os
 
-app = Flask(__name__, static_folder="webapp")
+app = Flask(__name__)
 
 @app.route("/")
-def home():
-    return send_from_directory("webapp", "index.html")
+def index():
+    return "Bot WebApp is running"
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
