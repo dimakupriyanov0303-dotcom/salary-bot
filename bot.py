@@ -1,9 +1,9 @@
-from telegram import Update, WebAppInfo, KeyboardButton, ReplyKeyboardMarkup
+from telegram import Update, KeyboardButton, ReplyKeyboardMarkup, WebAppInfo
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-TOKEN = "8405992880:AAFWcf9u83bh9tmSjYRpWj1cHB1t1W5IiFo"
+TOKEN = "8404255420:AAFn1TXIX47O_VT3BfeB2bIrrl_CQ76t0mc"
 
-WEBAPP_URL = "WEBAPP_URL = "https://salary-bot-o4qa.onrender.com""
+WEBAPP_URL = "https://your-app.onrender.com"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
@@ -12,10 +12,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         resize_keyboard=True
     )
 
-    await update.message.reply_text("💰 WebApp готов", reply_markup=keyboard)
+    await update.message.reply_text(
+        "💰 Система расчёта зарплаты",
+        reply_markup=keyboard
+    )
 
 app = ApplicationBuilder().token(TOKEN).build()
+
 app.add_handler(CommandHandler("start", start))
 
-print("Bot started...")
+print("🤖 Bot started")
+
 app.run_polling()
